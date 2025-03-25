@@ -19,3 +19,4 @@ run: fmt
 
 .env:
 	cp .env.dist .env
+

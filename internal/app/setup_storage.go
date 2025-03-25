@@ -1,0 +1,101 @@
+package app
+
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/oking02/surfe-challenge/internal/datasources"
+	"github.com/oking02/surfe-challenge/internal/datasources/memory"
+	"github.com/oking02/surfe-challenge/internal/domain"
+	"github.com/oking02/surfe-challenge/internal/enviroment"
+	"os"
+)
+
+func setupUserStorage() (datasources.UserRepository, error) {
+
+	userData, err := setupUserData()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get user data: %w", err)
+	}
+
+	storageDriver := enviroment.String("STORAGE_DRIVER", "memory")
+
+	switch storageDriver {
+	case "memory":
+		return memory.NewUserRepository(userData), nil
+	case "sqlite":
+		// as an example
+		// add setup logic
+		fallthrough
+	case "mysql":
+		// as an example,
+		// add setup logic
+		fallthrough
+	default:
+		return nil, fmt.Errorf("unknown storage driver: %s", storageDriver)
+	}
+
+}
+
+func setupUserData() ([]domain.User, error) {
+
+	userDataFilepath := enviroment.String("USER_DATA_LOCATION")
+	if userDataFilepath == "" {
+		return nil, nil
+	}
+
+	blob, err := os.ReadFile(userDataFilepath)
+	if err != nil {
+		return nil, err
+	}
+
+	var users []domain.User
+	if err := json.Unmarshal(blob, &users); err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+
+func setupUserStorage() (datasources.UserRepository, error) {
+
+	userData, err := setupUserData()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get user data: %w", err)
+	}
+
+	storageDriver := enviroment.String("STORAGE_DRIVER", "memory")
+
+	switch storageDriver {
+	case "memory":
+		return memory.NewUserRepository(userData), nil
+	case "sqlite":
+		// as an example
+		// add setup logic
+		fallthrough
+	case "mysql":
+		// as an example,
+		// add setup logic
+		fallthrough
+	default:
+		return nil, fmt.Errorf("unknown storage driver: %s", storageDriver)
+	}
+
+}
+
+func setupUserData() ([]domain.User, error) {
+
+	userDataFilepath := enviroment.String("USER_DATA_LOCATION")
+	if userDataFilepath == "" {
+		return nil, nil
+	}
+
+	blob, err := os.ReadFile(userDataFilepath)
+	if err != nil {
+		return nil, err
+	}
+
+	var users []domain.User
+	if err := json.Unmarshal(blob, &users); err != nil {
+		return nil, err
+	}
+	return users, nil
+}
