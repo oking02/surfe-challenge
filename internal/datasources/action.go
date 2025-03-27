@@ -6,7 +6,7 @@ import (
 	"github.com/oking02/surfe-challenge/internal/domain"
 )
 
-type ActionRepository struct {
+type ActionRepository interface {
 	UserActionLister
 }
 
