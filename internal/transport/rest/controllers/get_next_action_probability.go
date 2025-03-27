@@ -53,10 +53,10 @@ func (ctrl *GetNextActionProbabilityController) ServeHTTP(w http.ResponseWriter,
 func (ctrl *GetNextActionProbabilityController) parseRequest(r *http.Request) (domain.ClientID, domain.ActionType, map[string][]string) {
 
 	var (
-		errs     = make(map[string][]string)
-		userID   domain.ActionType
-		clientID domain.ClientID
-		err      error
+		errs       = make(map[string][]string)
+		actionType domain.ActionType
+		clientID   domain.ClientID
+		err        error
 	)
 
 	clientID, err = getClientID(r)
@@ -64,11 +64,11 @@ func (ctrl *GetNextActionProbabilityController) parseRequest(r *http.Request) (d
 		errs["header.client_id"] = []string{err.Error()}
 	}
 
-	userID, err = getPathAction(r)
+	actionType, err = getPathAction(r)
 	if err != nil {
 		errs["path.action"] = []string{err.Error()}
 	}
 
-	return clientID, userID, errs
+	return clientID, actionType, errs
 
 }

@@ -1,8 +1,36 @@
 # surfe-challenge
 
 
+## Run Instructions
+
+There is a makefile to provide a number of handy commands
+
+
+### Configuration
+
+The service uses a few envar to configure how it runs:
+
+There are default that will work out the gate.
+
+- `HTTP_PORT` - port to use with the http server
+- `STORAGE_DRIVER` - what type of storage will be used
+- `USER_DATA_LOCATION` - location of users.json file to be loaded on bootstrap
+- `ACTION_DATA_LOCATION` - location of actions.json file to be loaded on bootstrap
+
+### Run
+
+Go 1.24 is required
+
+`make run` - starts the application
+
+### Development
+
+To install tooling run: e.g. linter
+
+`make setup` - installs tools into separate go mod file
+
 ## Client ID
-This appears in all the interfaces and controller. Whilst in its current for it will always be "". 
+This appears in all the interfaces and controller. Whilst currently it will always be "". 
 The idea is for this to model the service supporting multiple client with a single datasource.
 
 Assumption would be that its added by an API gateway type of process
@@ -28,29 +56,3 @@ A count is found in the metadata object
 ### Get Referral Index
 ``[GET] /api/v1/actions/REFER_USER/referral-index``
 
-
-## Run Instructions
-
-There is a makefile to provide a number of handle commands
-The service uses a few envar to configure how it runs:
-
-### Configuration
-
-There are default that will work out the gate.
-
- - `HTTP_PORT` - port to use with the http server
- - `STORAGE_DRIVER` - what type of storage will be used
- - `USER_DATA_LOCATION` - location of users.json file to be loaded on bootstrap 
- - `ACTION_DATA_LOCATION` - location of actions.json file to be loaded on bootstrap
-
-### Run
-
-Go 1.24 is required
-
-`make run` - starts the application 
-
-### Development
-
-To install tooling run: e.g. linter
-
-`make setup` - installs tools into seperate go mod file
