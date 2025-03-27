@@ -11,11 +11,11 @@ import (
 )
 
 type GetUserActionsController struct {
-	actionFetcher datasources.ActionRepository
+	actionFetcher datasources.UserActionLister
 	operationID   string
 }
 
-func NewGetUserActionsController(actionFetcher datasources.ActionRepository) *GetUserActionsController {
+func NewGetUserActionsController(actionFetcher datasources.UserActionLister) *GetUserActionsController {
 	return &GetUserActionsController{
 		actionFetcher: actionFetcher,
 		operationID:   "v1_user_actions_get",

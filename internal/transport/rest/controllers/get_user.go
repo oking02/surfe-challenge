@@ -77,7 +77,7 @@ func (ctrl *GetUserController) parseRequest(r *http.Request) (domain.ClientID, d
 
 	userID, err = getUserID(r)
 	if err != nil {
-		errs["header.user_id"] = []string{err.Error()}
+		errs["path.user_id"] = []string{err.Error()}
 	}
 
 	return clientID, userID, errs
