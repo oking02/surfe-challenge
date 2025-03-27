@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/oking02/surfe-challenge/internal/datasources"
 	"github.com/oking02/surfe-challenge/internal/datasources/memory"
@@ -49,11 +50,17 @@ func setupUserData() ([]domain.User, error) {
 		return nil, err
 	}
 
-	var users []domain.User
+	var users []user
 	if err := json.Unmarshal(blob, &users); err != nil {
 		return nil, err
 	}
-	return users, nil
+
+	results := make([]domain.User, len(users))
+	for i, a := range users {
+		results[i] = a.toDomain()
+	}
+
+	return results, nil
 }
 
 func setupActionsStorage() (datasources.ActionRepository, error) {
@@ -94,9 +101,51 @@ func setupActionsData() ([]domain.Action, error) {
 		return nil, err
 	}
 
-	var actions []domain.Action
+	var actions []action
 	if err := json.Unmarshal(blob, &actions); err != nil {
 		return nil, err
 	}
-	return actions, nil
+
+	results := make([]domain.Action, len(actions))
+	for i, a := range actions {
+		results[i] = a.toDomain()
+	}
+
+	return results, nil
+}
+
+type user struct {
+	ID        int       `json:"id"`
+	Name      string    `json:"name"`
+	CreatedAt time.Time `json:"createdAt"`
+}
+
+func (u user) toDomain() domain.User {
+	return domain.User{
+		ID:        domain.UserID(u.ID),
+		Name:      u.Name,
+		CreatedAt: u.CreatedAt,
+	}
+}
+
+type action struct {
+	ID       int    `json:"id"`
+	Type     string `json:"type"`
+	UserID   int    `json:"userId"`
+	TargetID int    `json:"targetUser"`
+	// CreatedAt refers when this action was performed
+	CreatedAt time.Time `json:"createdAt"`
+	// ClientID is the identifier for the client
+	// the parent user is associated with
+	ClientID string
+}
+
+func (a *action) toDomain() domain.Action {
+	return domain.Action{
+		ID:        domain.ActionID(a.ID),
+		Type:      domain.ActionType(a.Type),
+		UserID:    domain.UserID(a.UserID),
+		TargetID:  domain.UserID(a.TargetID),
+		CreatedAt: a.CreatedAt,
+	}
 }

@@ -22,3 +22,7 @@ type ActionLister interface {
 type ActionProbability interface {
 	NextActionProbability(ctx context.Context, clientID domain.ClientID, actionType domain.ActionType) (map[domain.ActionType]float64, error)
 }
+
+type ReferralStatistics interface {
+	ReferralIndex(ctx context.Context, clientID domain.ClientID) (map[domain.UserID]int, error)
+}
