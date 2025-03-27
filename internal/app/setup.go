@@ -23,11 +23,14 @@ func Setup(ctx context.Context) (*App, error) {
 		return nil, err
 	}
 
+	nextActionCmd := command.NewNextActionProbabilityCommand(actionsRepo)
+
 	getUserActionsCmd := command.NewGetUserActionsCommand(userRepo, actionsRepo)
 
 	restServer.SetupRoutes(map[string]http.Handler{
-		"GET /api/v1/users/{id}":         controllers.NewGetUserController(userRepo),
-		"GET /api/v1/users/{id}/actions": controllers.NewGetUserActionsController(getUserActionsCmd),
+		"GET /api/v1/users/{id}":                      controllers.NewGetUserController(userRepo),
+		"GET /api/v1/users/{id}/actions":              controllers.NewGetUserActionsController(getUserActionsCmd),
+		"GET /api/v1/actions/{type}/probability/next": controllers.NewGetNextActionProbabilityController(nextActionCmd),
 	})
 
 	return &App{

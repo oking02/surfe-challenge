@@ -66,3 +66,15 @@ func getUserID(r *http.Request) (domain.UserID, error) {
 
 	return domain.UserID(userIDInt), nil
 }
+
+func getPathAction(r *http.Request) (domain.ActionType, error) {
+
+	actionTypeInput := r.PathValue("type")
+	if actionTypeInput == "" {
+		return "", errors.New("missing action type")
+	}
+
+	// could validate if it was a set list or enum
+
+	return domain.ActionType(actionTypeInput), nil
+}

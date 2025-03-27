@@ -43,3 +43,13 @@ func (ar *ActionRepository) ListUserActions(ctx context.Context, clientID domain
 	}
 	return results, nil
 }
+
+func (ar *ActionRepository) ListActions(ctx context.Context, clientID domain.ClientID) ([]domain.Action, error) {
+	var results []domain.Action
+	for key, actions := range ar.userActions {
+		if key.clientID == clientID {
+			results = append(results, actions...)
+		}
+	}
+	return results, nil
+}
