@@ -8,12 +8,12 @@ There is a makefile to provide a number of handy commands
 
 ### Configuration
 
-The service uses a few envar to configure how it runs:
+The service uses a few environment variables to configure how it runs:
 
-There are default that will work out the gate.
+There are defaults that will work out the gate.
 
 - `HTTP_PORT` - port to use with the http server
-- `STORAGE_DRIVER` - what type of storage will be used
+- `STORAGE_DRIVER` - type of storage will be used.
 - `USER_DATA_LOCATION` - location of users.json file to be loaded on bootstrap
 - `ACTION_DATA_LOCATION` - location of actions.json file to be loaded on bootstrap
 
