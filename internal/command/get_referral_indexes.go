@@ -31,7 +31,7 @@ func (cmd *ReferralIndexCommand) ReferralIndex(ctx context.Context, clientID dom
 
 	referralActions, err := cmd.getReferralActions(ctx, clientID)
 	if err != nil {
-		return nil, fmt.Errorf("failed to list users: %w", err)
+		return nil, fmt.Errorf("failed to list actions: %w", err)
 	}
 
 	directReferrals := cmd.calculateDirectReferrals(users, referralActions)
@@ -43,7 +43,7 @@ func (cmd *ReferralIndexCommand) ReferralIndex(ctx context.Context, clientID dom
 			continue
 		}
 
-		total := calc(userID, directReferrals)
+		total := countReferrals(userID, directReferrals)
 		results[userID] = total
 	}
 
@@ -51,7 +51,7 @@ func (cmd *ReferralIndexCommand) ReferralIndex(ctx context.Context, clientID dom
 
 }
 
-func calc(userID domain.UserID, data map[domain.UserID][]domain.UserID) int {
+func countReferrals(userID domain.UserID, data map[domain.UserID][]domain.UserID) int {
 	referrals, ok := data[userID]
 
 	if !ok || len(referrals) == 0 {
@@ -69,7 +69,7 @@ func calc(userID domain.UserID, data map[domain.UserID][]domain.UserID) int {
 
 		total++
 
-		t := calc(referralID, data)
+		t := countReferrals(referralID, data)
 		total = total + t
 	}
 	return total
