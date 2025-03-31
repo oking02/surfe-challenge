@@ -1,8 +1,6 @@
 package domain
 
 import (
-	"iter"
-	"maps"
 	"time"
 )
 
@@ -34,12 +32,4 @@ type Action struct {
 	// ClientID is the identifier for the client
 	// the parent user is associated with
 	ClientID ClientID
-}
-
-func DistinctActionsType(actions []Action) iter.Seq[ActionType] {
-	types := make(map[ActionType]struct{})
-	for _, action := range actions {
-		types[action.Type] = struct{}{}
-	}
-	return maps.Keys(types)
 }
